@@ -6,8 +6,10 @@ require_once('./config.php');
 require_once('./Database.php');
 
 $db = new Database();
-$query = "SELECT * FORM userdata";
-$result = 
+$query = "SELECT * FROM user";
+$usersData = $db->select(query: $query);
+
+
 ?>
 
 <?php ?>
@@ -24,12 +26,18 @@ $result =
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if ($usersData) :?>
+                            <?php while($row = $usersData->fetch_assoc()) : ?>
                         <tr class="">
-                            <th scope="row">Mark</th>
-                            <td>1</td>
-                            <td>Otto</td>
-                            <td><a href="#">Edit</a></td>
+                            <th scope="row"><?php echo $row['name']?></th>
+                            <td><?php echo $row['email']?></td>
+                            <td><?php echo $row['skill']?></td>
+                            <td><a href="/update.php?id=<?php echo $row['id']?>" >Edit</a></td>
                         </tr>
+                        <?php endwhile;?>
+                        <?php else: ?>
+                            <p>No Data available</p>
+                        <?php endif;?>
                     </tbody>
                 </table>
             </div>
